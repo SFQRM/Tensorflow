@@ -47,6 +47,5 @@ accuracy = tf.reduce_mean(tf.cast(correct_prediction, "float")) # 定义准确�
 
 
 # 结果-start #
-print(sess.run(y, feed_dict={x:mnist.test.images}))
-# print(sess.run(accuracy, feed_dict={x: mnist.test.images, y_: mnist.test.labels}))    # 输出结果
+print(sess.run(accuracy, feed_dict={x: mnist.test.images, y_: mnist.test.labels}))    # 输出结果
 # 结果-end #
