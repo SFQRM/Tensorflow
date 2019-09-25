@@ -25,13 +25,13 @@ y_ = tf.placeholder("float", [None, 10])                # 定义实际的标签
 cross_entropy = -tf.reduce_sum(y_*tf.log(y))            # 计算交叉熵
 train_step = tf.train.GradientDescentOptimizer(0.01).minimize(cross_entropy)    # 训练：使用梯度下降算法最小化交叉熵
 
-init = tf.initialize_all_variables()                    # 初始化所有变量
+init = tf.initialize_all_variables()                    # 初始化所有变量句柄
 sess = tf.Session()                                     # 创建tf会话
 sess.run(init)                                          # 初始化所有变量
 
 for i in range(1000):
     batch_xs, batch_ys = mnist.train.next_batch(100)    # 随机抓取训练数据集中的100个批处理数据点
-    sess.run(train_step, feed_dict={x:batch_xs, y_:batch_ys})   # 将数据填充至对应变量中，并开始训练
+    sess.run(train_step, feed_dict={x: batch_xs, y_: batch_ys})   # 将数据填充至对应变量中，并开始训练
 # 训练模型-end #
 
 
@@ -47,5 +47,6 @@ accuracy = tf.reduce_mean(tf.cast(correct_prediction, "float")) # 定义准确�
 
 
 # 结果-start #
+# print(sess.run(y, feed_dict={x:mnist.test.images}))
 print(sess.run(accuracy, feed_dict={x: mnist.test.images, y_: mnist.test.labels}))    # 输出结果
 # 结果-end #
