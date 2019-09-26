@@ -20,7 +20,7 @@ def add_layer(inputs, in_size, out_size, n_layer, activation_function=None):
     Weights = tf.Variable(tf.random_normal([in_size,out_size]))
     biases = tf.Variable(tf.zeros([1, out_size])) + 0.1             # 推荐初始化不为0
     Wx_plus_b = tf.matmul(inputs, Weights) + biases                 # 构造预测结果
-    Wx_plus_b = tf.nn.dropout(Wx_plus_b, keep_prob)
+    Wx_plus_b = tf.nn.dropout(Wx_plus_b, keep_prob)                 # 使用dropout结果过拟合
     if activation_function is None:                                 # 如果没有激励函数
         outputs = Wx_plus_b
     else:                                                           # 如果有激励函数
@@ -31,7 +31,7 @@ def add_layer(inputs, in_size, out_size, n_layer, activation_function=None):
 
 
 # 输入数据-start #
-keep_prob = tf.placeholder(tf.float32)
+keep_prob = tf.placeholder(tf.float32)                              # 保持keep_prob的数据不被dropout掉
 xs = tf.placeholder(tf.float32, [None, 64])
 ys = tf.placeholder(tf.float32, [None, 10])
 # 输入数据-end #
@@ -59,7 +59,7 @@ test_writer = tf.summary.FileWriter("D:\code\TensorFlow\Morvan\logs\_test", sess
 sess.run(tf.global_variables_initializer())
 
 for i in range(500):
-    sess.run(train_step, feed_dict={xs:X_train, ys:y_train, keep_prob:0.5})
+    sess.run(train_step, feed_dict={xs:X_train, ys:y_train, keep_prob:0.5})                 # 保持50%的概率不被dropout掉
     if i%50 == 0:
         train_result = sess.run(merged, feed_dict={xs:X_train, ys:y_train, keep_prob:1})
         test_result = sess.run(merged, feed_dict={xs:X_test, ys:y_test, keep_prob:1})
